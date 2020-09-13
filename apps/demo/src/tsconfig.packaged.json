@@ -1,14 +1,14 @@
 {
   "extends": "../../../tsconfig.packaged.json",
   "compilerOptions": {
-    "outDir": "../../../dist/apps/demo",
-    "module": "es2015"
-  },
-  "include": [
-    "**/*.ts"
+    "outDir": "../../../dist/apps/demo"
+},
+  "files": [
+    "main.ts",
+    "polyfills.ts"
   ],
-  "exclude": [
-    "**/*.spec.ts"
+  "include": [
+    "**/*.d.ts"
   ]
 }
 
