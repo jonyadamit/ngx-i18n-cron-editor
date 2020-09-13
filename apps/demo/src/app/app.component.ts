@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
     cronFlavor: 'standard'
   };
 
-  @ViewChild('cronEditorDemo', { static: false })
+  @ViewChild('cronEditorDemo')
   cronEditorDemo: CronGenComponent;
 
   cronForm: FormControl;
