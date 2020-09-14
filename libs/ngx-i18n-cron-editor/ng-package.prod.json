@@ -1,7 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/libs/ngx-cron-editor",
-  "deleteDestPath": false,
+  "dest": "../../dist/libs/ngx-i18n-cron-editor",
   "lib": {
     "entryFile": "public_api.ts"
   }

@@ -2,6 +2,6 @@
   "bumpFiles": [
       "package.json",
       "package-lock.json",
-      "libs/ngx-cron-editor/package.json"
+      "libs/ngx-i18n-cron-editor/package.json"
   ]
 }

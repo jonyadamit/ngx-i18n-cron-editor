@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import { CronOptions } from 'ngx-cron-editor';
-import { CronGenComponent } from 'ngx-cron-editor';
+import { CronOptions } from 'ngx-i18n-cron-editor';
+import { CronGenComponent } from 'ngx-i18n-cron-editor';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
 @Component({

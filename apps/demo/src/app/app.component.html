@@ -1,42 +1,41 @@
 <section class="mat-typography demo-container">
-
   <h1>Angular 8+ Cron Expression Editor</h1>
 
-    <mat-card class="demo-card">
-      <mat-card-header class="demo-card-header">
+  <mat-card class="demo-card">
+    <mat-card-header class="demo-card-header">
+      <mat-card-title> Select your cron flavor </mat-card-title>
+      <div>
+        <mat-form-field>
+          <mat-label>Flavor</mat-label>
+          <mat-select
+            (change)="cronFlavorChange()"
+            [(ngModel)]="cronOptions.cronFlavor"
+          >
+            <mat-option [value]="'quartz'"> Quartz </mat-option>
 
-        <mat-card-title>
-          Select your cron flavor
-        </mat-card-title>
-        <div>
-          <mat-form-field>
-            <mat-label>Flavor</mat-label>
-            <mat-select (change)="cronFlavorChange()" [(ngModel)]="cronOptions.cronFlavor">
-              <mat-option [value]="'quartz'">
-                Quartz
-              </mat-option>
+            <mat-option [value]="'standard'"> Standard </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card-header>
 
-              <mat-option [value]="'standard'">
-                Standard
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </mat-card-header>
+    <mat-card-content class="demo-card-content">
+      <form>
+        <cron-editor
+          #cronEditorDemo
+          [formControl]="cronForm"
+          [options]="cronOptions"
+          >Cron here...</cron-editor
+        >
+      </form>
+    </mat-card-content>
 
-      <mat-card-content class="demo-card-content">
-        <form >
-        <cron-editor  #cronEditorDemo [formControl]="cronForm"  [options]="cronOptions">Cron here...</cron-editor>
-        </form>
-      </mat-card-content>
-
-      <mat-card-footer class="demo-card-footer">
-        <div>
-          <h3>
-            <b>Expression: {{cronForm.value}}</b>
-          </h3>
-        </div>
-      </mat-card-footer>
-
-    </mat-card>
+    <mat-card-footer class="demo-card-footer">
+      <div>
+        <h3>
+          <b>Expression: {{ cronForm.value }}</b>
+        </h3>
+      </div>
+    </mat-card-footer>
+  </mat-card>
 </section>

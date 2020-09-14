@@ -1,17 +1,18 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "description": "A cron expression generator for Angular 8+",
-  "name": "ngx-cron-editor",
+  "name": "ngx-i18n-cron-editor",
   "version": "0.6.4",
   "repository": {
     "type": "git",
-    "url": "git://github.com/haavardj/ngx-cron-editor"
+    "url": "git://github.com/jonyadamit/ngx-i18n-cron-editor"
   },
   "author": {
-    "name": "Håvard Dagenborg Johansen",
-    "email": "haavardj@dagenborg.net"
+    "name": "Jonathan Adamit",
+    "email": "jonyadamit@gmail.com"
   },
   "contributors": [
+    "Håvard D. Johansen",
     "Claudiu Constantin",
     "Eduardo Sarmiento"
   ],
@@ -24,9 +25,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/haavardj/ngx-cron-editor/issues"
+    "url": "https://github.com/jonyadamit/ngx-i18n-cron-editor/issues"
   },
-  "homepage": "https://github.com/haavardj/ngx-cron-editor",
+  "homepage": "https://github.com/jonyadamit/ngx-i18n-cron-editor",
   "peerDependencies": {
     "@angular/core": "~8.2.14",
     "@angular/animations": "~8.2.14",
@@ -50,6 +51,6 @@
         "./src"
       ]
     },
-    "dest": "../../dist/libs/ngx-cron-editor"
+    "dest": "../../dist/libs/ngx-i18n-cron-editor"
   }
 }

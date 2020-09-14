@@ -2,10 +2,10 @@
     <mat-tab-group class="cron-editor-container" (selectedIndexChange)="onTabFocus($event)" [backgroundColor]="backgroundColor" [color]="color">
 
       <!-- Minute -->
-      <mat-tab class="cron-editor-tab" label="Minutes" *ngIf="!options.hideMinutesTab">
+      <mat-tab class="cron-editor-tab" i18n-label label="Minutes" *ngIf="!options.hideMinutesTab">
         <div class="cron-editor-tab-content">
 
-          <span class="cron-form-label">Every </span>
+          <span class="cron-form-label" i18n>Every </span>
 
             <cron-time-picker
               [formGroup]="minutesForm"
@@ -17,9 +17,9 @@
       </mat-tab>
 
       <!-- Hourly -->
-      <mat-tab class="cron-editor-tab" label="Hourly" *ngIf="!options.hideHourlyTab">
+      <mat-tab class="cron-editor-tab" i18n-label label="Hourly" *ngIf="!options.hideHourlyTab">
         <div class="cron-editor-tab-content">
-          <span class="cron-form-label">Every </span>
+          <span class="cron-form-label" i18n>Every </span>
 
           <cron-time-picker [formGroup]="hourlyForm"
                               [use24HourTime]="options.use24HourTime"
@@ -30,13 +30,13 @@
 
 
       <!-- Daily-->
-      <mat-tab class="cron-editor-tab" label="Daily" *ngIf="!options.hideDailyTab">
+      <mat-tab class="cron-editor-tab" i18n-label label="Daily" *ngIf="!options.hideDailyTab">
         <div class="cron-editor-tab-content" [formGroup]="dailyForm">
 
           <mat-radio-group class="cron-editor-radio-group" formControlName="subTab">
             <mat-radio-button name="subTab" class="cron-editor-radio-button" value="everyDays" checked="checked">
 
-              <span class="cron-form-label">Every </span>
+              <span class="cron-form-label" i18n>Every </span>
 
               <mat-form-field formGroupName="everyDays">
                 <mat-label>Day(s)</mat-label>
