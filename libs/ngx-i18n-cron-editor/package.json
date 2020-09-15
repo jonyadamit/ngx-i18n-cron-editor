@@ -1,8 +1,8 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
-  "description": "A cron expression generator for Angular 8+",
+  "description": "A cron expression generator for Angular 10+",
   "name": "ngx-i18n-cron-editor",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "repository": {
     "type": "git",
     "url": "git://github.com/jonyadamit/ngx-i18n-cron-editor"
@@ -29,17 +29,21 @@
   },
   "homepage": "https://github.com/jonyadamit/ngx-i18n-cron-editor",
   "peerDependencies": {
-    "@angular/core": "~8.2.14",
-    "@angular/animations": "~8.2.14",
-    "@angular/common": "~8.2.14",
-    "@angular/compiler": "~8.2.14",
-    "@angular/forms": "~8.2.14",
-    "@angular/platform-browser": "~8.2.14",
-    "@angular/platform-browser-dynamic": "~8.2.14",
-    "@angular/router": "~8.2.14",
-    "@angular/material": "^8.2.3",
-    "rxjs": "~6.5.3",
-    "zone.js": "~0.9.1"
+    "@angular/animations": "~10.1.1",
+    "@angular/cdk": "~10.2.0",
+    "@angular/common": "~10.1.1",
+    "@angular/compiler": "~10.1.1",
+    "@angular/core": "~10.1.1",
+    "@angular/forms": "^10.1.1",
+    "@angular/material": "^10.2.0",
+    "@angular/platform-browser": "~10.1.1",
+    "@angular/platform-browser-dynamic": "~10.1.1",
+    "@angular/router": "~10.1.1",
+    "@ngx-i18nsupport/tooling": "^8.0.3",
+    "rxjs": "~6.6.3",
+    "standard-version": "^7.0.1",
+    "tslib": "^2.0.0",
+    "zone.js": "~0.10.2"
   },
   "dependencies": {
     "tslib": "^2.0.0"
