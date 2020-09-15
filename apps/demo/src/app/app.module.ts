@@ -32,8 +32,7 @@ import { CommonModule } from '@angular/common';
     CronEditorModule,
   ],
   declarations: [AppComponent],
-  // providers: [],
-  providers: [{ provide: LOCALE_ID, useValue: 'he' }],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
