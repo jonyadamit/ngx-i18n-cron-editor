@@ -1,0 +1,238 @@
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" target-language="en" datatype="plaintext">
+    <body>
+      <trans-unit id="2547756348530497105" datatype="html">
+        <source>ltr</source>
+        <target>ltr</target>
+      </trans-unit>
+      <trans-unit id="5721531936033846268" datatype="html">
+        <source>Angular 10+ Cron Expression Editor</source>
+        <target>Angular 10+ Cron Expression Editor</target>
+      </trans-unit>
+      <trans-unit id="2775129024020251953" datatype="html">
+        <source> Select your cron flavor </source>
+        <target> Select your cron flavor </target>
+      </trans-unit>
+      <trans-unit id="733220785556760297" datatype="html">
+        <source>Flavor</source>
+        <target>Flavor</target>
+      </trans-unit>
+      <trans-unit id="1790603985480156574" datatype="html">
+        <source> Quartz </source>
+        <target> Quartz </target>
+      </trans-unit>
+      <trans-unit id="6188815793714608401" datatype="html">
+        <source> Standard </source>
+        <target> Standard </target>
+      </trans-unit>
+      <trans-unit id="221537650517144959" datatype="html">
+        <source>Expression: <x id="INTERPOLATION"/></source>
+        <target>Expression: <x id="INTERPOLATION"/></target>
+      </trans-unit>
+      <trans-unit id="660968041670905112" datatype="html">
+        <source>Hour(s)</source>
+        <target>Hour(s)</target>
+      </trans-unit>
+      <trans-unit id="2365388243339409921" datatype="html">
+        <source>Minute(s)</source>
+        <target>Minute(s)</target>
+      </trans-unit>
+      <trans-unit id="1255117480222066438" datatype="html">
+        <source>Second(s)</source>
+        <target>Second(s)</target>
+      </trans-unit>
+      <trans-unit id="6950140976689343775" datatype="html">
+        <source>Sunday</source>
+        <target>Sunday</target>
+      </trans-unit>
+      <trans-unit id="8739442281958563044" datatype="html">
+        <source>Monday</source>
+        <target>Monday</target>
+      </trans-unit>
+      <trans-unit id="9176037901730521018" datatype="html">
+        <source>Tuesday</source>
+        <target>Tuesday</target>
+      </trans-unit>
+      <trans-unit id="8798932904948432529" datatype="html">
+        <source>Wednesday</source>
+        <target>Wednesday</target>
+      </trans-unit>
+      <trans-unit id="1433683192825895947" datatype="html">
+        <source>Thursday</source>
+        <target>Thursday</target>
+      </trans-unit>
+      <trans-unit id="3730139500618908668" datatype="html">
+        <source>Friday</source>
+        <target>Friday</target>
+      </trans-unit>
+      <trans-unit id="1830554030016307335" datatype="html">
+        <source>Saturday</source>
+        <target>Saturday</target>
+      </trans-unit>
+      <trans-unit id="2241508602425256033" datatype="html">
+        <source>First</source>
+        <target>First</target>
+      </trans-unit>
+      <trans-unit id="4791345740322435630" datatype="html">
+        <source>Second</source>
+        <target>Second</target>
+      </trans-unit>
+      <trans-unit id="7328891136796337314" datatype="html">
+        <source>Third</source>
+        <target>Third</target>
+      </trans-unit>
+      <trans-unit id="8042630356363435217" datatype="html">
+        <source>Fourth</source>
+        <target>Fourth</target>
+      </trans-unit>
+      <trans-unit id="741369556528226179" datatype="html">
+        <source>Fifth</source>
+        <target>Fifth</target>
+      </trans-unit>
+      <trans-unit id="4882268002141858767" datatype="html">
+        <source>Last</source>
+        <target>Last</target>
+      </trans-unit>
+      <trans-unit id="3913843642962116845" datatype="html">
+        <source>January</source>
+        <target>January</target>
+      </trans-unit>
+      <trans-unit id="6642324138857419870" datatype="html">
+        <source>February</source>
+        <target>February</target>
+      </trans-unit>
+      <trans-unit id="7918954644624211958" datatype="html">
+        <source>March</source>
+        <target>March</target>
+      </trans-unit>
+      <trans-unit id="1809521303476565743" datatype="html">
+        <source>April</source>
+        <target>April</target>
+      </trans-unit>
+      <trans-unit id="8469692700277617405" datatype="html">
+        <source>May</source>
+        <target>May</target>
+      </trans-unit>
+      <trans-unit id="9055297580745330415" datatype="html">
+        <source>June</source>
+        <target>June</target>
+      </trans-unit>
+      <trans-unit id="9087113544612471348" datatype="html">
+        <source>July</source>
+        <target>July</target>
+      </trans-unit>
+      <trans-unit id="3984618989093293779" datatype="html">
+        <source>August</source>
+        <target>August</target>
+      </trans-unit>
+      <trans-unit id="5872622085239011307" datatype="html">
+        <source>September</source>
+        <target>September</target>
+      </trans-unit>
+      <trans-unit id="1491482705364427867" datatype="html">
+        <source>October</source>
+        <target>October</target>
+      </trans-unit>
+      <trans-unit id="1109977718843277527" datatype="html">
+        <source>November</source>
+        <target>November</target>
+      </trans-unit>
+      <trans-unit id="124191049522509365" datatype="html">
+        <source>December</source>
+        <target>December</target>
+      </trans-unit>
+      <trans-unit id="4733506484280777649" datatype="html">
+        <source>Last Day</source>
+        <target>Last Day</target>
+      </trans-unit>
+      <trans-unit id="3370265568807947309" datatype="html">
+        <source>Last Weekday</source>
+        <target>Last Weekday</target>
+      </trans-unit>
+      <trans-unit id="2922146743958303080" datatype="html">
+        <source>First Weekday</source>
+        <target>First Weekday</target>
+      </trans-unit>
+      <trans-unit id="5531237363767747080" datatype="html">
+        <source>Minutes</source>
+        <target>Minutes</target>
+      </trans-unit>
+      <trans-unit id="3104448548270741911" datatype="html">
+        <source>Every </source>
+        <target>Every </target>
+      </trans-unit>
+      <trans-unit id="2640607428459636406" datatype="html">
+        <source>Hourly</source>
+        <target>Hourly</target>
+      </trans-unit>
+      <trans-unit id="2988589012964101797" datatype="html">
+        <source>Daily</source>
+        <target>Daily</target>
+      </trans-unit>
+      <trans-unit id="6877003697022351372" datatype="html">
+        <source>Day(s)</source>
+        <target>Day(s)</target>
+      </trans-unit>
+      <trans-unit id="5338673541028692262" datatype="html">
+        <source>at</source>
+        <target>at</target>
+      </trans-unit>
+      <trans-unit id="4500643000719512881" datatype="html">
+        <source>Week Day (<x id="INTERPOLATION"/>) at </source>
+        <target>Week Day (<x id="INTERPOLATION"/>) at </target>
+      </trans-unit>
+      <trans-unit id="928838138686087140" datatype="html">
+        <source>Weekly</source>
+        <target>Weekly</target>
+      </trans-unit>
+      <trans-unit id="4248249309886370504" datatype="html">
+        <source>at time </source>
+        <target>at time </target>
+      </trans-unit>
+      <trans-unit id="6762743264882388498" datatype="html">
+        <source>Monthly</source>
+        <target>Monthly</target>
+      </trans-unit>
+      <trans-unit id="2539328935447835151" datatype="html">
+        <source>On the</source>
+        <target>On the</target>
+      </trans-unit>
+      <trans-unit id="2829964193210082231" datatype="html">
+        <source>of every</source>
+        <target>of every</target>
+      </trans-unit>
+      <trans-unit id="5403684285319082289" datatype="html">
+        <source>Month</source>
+        <target>Month</target>
+      </trans-unit>
+      <trans-unit id="6408263129846813839" datatype="html">
+        <source>at time</source>
+        <target>at time</target>
+      </trans-unit>
+      <trans-unit id="5141352019990967744" datatype="html">
+        <source>Week</source>
+        <target>Week</target>
+      </trans-unit>
+      <trans-unit id="1286983255645370171" datatype="html">
+        <source>Day</source>
+        <target>Day</target>
+      </trans-unit>
+      <trans-unit id="8036977202721714375" datatype="html">
+        <source>Yearly</source>
+        <target>Yearly</target>
+      </trans-unit>
+      <trans-unit id="5881876145178332550" datatype="html">
+        <source>of</source>
+        <target>of</target>
+      </trans-unit>
+      <trans-unit id="6201638315245239510" datatype="html">
+        <source>Advanced</source>
+        <target>Advanced</target>
+      </trans-unit>
+      <trans-unit id="2791965473218359494" datatype="html">
+        <source>Expression</source>
+        <target>Expression</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

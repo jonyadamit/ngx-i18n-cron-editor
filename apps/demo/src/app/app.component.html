@@ -1,19 +1,19 @@
-<section class="mat-typography demo-container">
-  <h1>Angular 8+ Cron Expression Editor</h1>
+<section class="mat-typography demo-container" i18n-dir dir="ltr">
+  <h1 i18n>Angular 10+ Cron Expression Editor</h1>
 
   <mat-card class="demo-card">
     <mat-card-header class="demo-card-header">
-      <mat-card-title> Select your cron flavor </mat-card-title>
+      <mat-card-title i18n> Select your cron flavor </mat-card-title>
       <div>
         <mat-form-field>
-          <mat-label>Flavor</mat-label>
+          <mat-label i18n>Flavor</mat-label>
           <mat-select
             (change)="cronFlavorChange()"
             [(ngModel)]="cronOptions.cronFlavor"
           >
-            <mat-option [value]="'quartz'"> Quartz </mat-option>
+            <mat-option [value]="'quartz'" i18n> Quartz </mat-option>
 
-            <mat-option [value]="'standard'"> Standard </mat-option>
+            <mat-option [value]="'standard'" i18n> Standard </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -25,15 +25,14 @@
           #cronEditorDemo
           [formControl]="cronForm"
           [options]="cronOptions"
-          >Cron here...</cron-editor
-        >
+        ></cron-editor>
       </form>
     </mat-card-content>
 
     <mat-card-footer class="demo-card-footer">
       <div>
         <h3>
-          <b>Expression: {{ cronForm.value }}</b>
+          <b i18n>Expression: {{ cronForm.value }}</b>
         </h3>
       </div>
     </mat-card-footer>

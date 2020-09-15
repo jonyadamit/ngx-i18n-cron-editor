@@ -8,6 +8,12 @@
       "sourceRoot": "src",
       "projectType": "application",
       "prefix": "demo",
+      "i18n": {
+        "sourceLocale": "en",
+        "locales": {
+          "he": "apps/demo/src/locale/messages.he.xlf"
+        }
+      },
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
@@ -23,10 +29,7 @@
             "main": "apps/demo/src/main.ts",
             "polyfills": "apps/demo/src/polyfills.ts",
             "tsConfig": "apps/demo/src/tsconfig.packaged.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "apps/demo/src/styles.scss"
@@ -56,6 +59,13 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "he": {
+              "localize": ["he"]
+            },
+            "docs": {
+              "outputPath": "docs",
+              "localize": ["en","he"]
             }
           }
         },
@@ -67,13 +77,17 @@
           "configurations": {
             "production": {
               "browserTarget": "demo:build:production"
+            },
+            "he": {
+              "browserTarget": "demo:build:he"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "demo:build"
+            "browserTarget": "demo:build",
+            "outputPath": "apps/demo/src/locale"
           }
         },
         "test": {
@@ -88,10 +102,7 @@
               "apps/demo/src/styles.scss"
             ],
             "scripts": [],
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ]
+            "assets": ["src/favicon.ico", "src/assets"]
           }
         },
         "lint": {
@@ -101,9 +112,19 @@
               "apps/demo/src/tsconfig.app.json",
               "apps/demo/src/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "xliffmerge": {
+          "builder": "@ngx-i18nsupport/tooling:xliffmerge",
+          "options": {
+            "xliffmergeOptions": {
+              "i18nFormat": "xlf",
+              "srcDir": "apps/demo/src/locale",
+              "genDir": "apps/demo/src/locale",
+              "defaultLanguage": "en",
+              "languages": ["en", "he"]
+            }
           }
         }
       }
@@ -122,9 +143,9 @@
           },
           "configurations": {
             "production": {
-              "project": "libs/ngx-i18n-cron-editor/ng-package.prod.json"
-            ,              "tsConfig": "libs/ngx-i18n-cron-editor/tsconfig.lib.prod.json"
-}
+              "project": "libs/ngx-i18n-cron-editor/ng-package.prod.json",
+              "tsConfig": "libs/ngx-i18n-cron-editor/tsconfig.lib.prod.json"
+            }
           },
           "styles": ["libs/ngx-i18n-cron-editor/src/cron-editor-theme.scss"]
         },

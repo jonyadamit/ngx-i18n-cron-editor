@@ -1,18 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { LOCALE_ID, NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
-import {CronEditorModule} from 'ngx-i18n-cron-editor';
+import { CronEditorModule } from 'ngx-i18n-cron-editor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatCardModule} from '@angular/material/card';
-import {MatSelectModule} from '@angular/material/select';
-import {MatSliderModule} from '@angular/material/slider';
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { LayoutModule } from '@angular/cdk/layout';
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [
@@ -29,10 +29,11 @@ import {CommonModule} from '@angular/common';
     MatIconModule,
     MatButtonModule,
     LayoutModule,
-    CronEditorModule],
+    CronEditorModule,
+  ],
   declarations: [AppComponent],
-  providers: [],
-  bootstrap: [AppComponent]
+  // providers: [],
+  providers: [{ provide: LOCALE_ID, useValue: 'he' }],
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

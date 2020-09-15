@@ -16,9 +16,10 @@ export class AppComponent implements OnInit {
     formSelectClass: 'form-control cron-editor-select',
     formRadioClass: 'cron-editor-radio',
     formCheckboxClass: 'cron-editor-checkbox',
-
+    weekDays: 'MON-FRI',
     defaultTime: '00:00:00',
 
+    useOrdinalSuffixes: true,
     hideMinutesTab: false,
     hideHourlyTab: false,
     hideDailyTab: false,

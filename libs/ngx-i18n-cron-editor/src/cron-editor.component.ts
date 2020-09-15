@@ -6,10 +6,13 @@ import {
   OnChanges,
   SimpleChanges,
   EventEmitter,
-  forwardRef,, LOCALE_ID, Inject
+  forwardRef,
+  LOCALE_ID,
+  Inject,
+  OnDestroy,
 } from '@angular/core';
 import { CronOptions } from './CronOptions';
-import { Days, MonthWeeks, Months } from './enums';
+import { days, monthWeeks, months } from './conversions';
 import {
   ControlContainer,
   ControlValueAccessor,
@@ -19,6 +22,9 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
+import { getLocaleFirstDayOfWeek } from '@angular/common';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 export const CRON_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -32,7 +38,8 @@ export const CRON_VALUE_ACCESSOR: any = {
   styleUrls: ['./cron-editor.component.css'],
   providers: [CRON_VALUE_ACCESSOR],
 })
-export class CronGenComponent implements OnInit, ControlValueAccessor {
+export class CronGenComponent
+  implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public backgroundColor: ThemePalette;
   @Input() public color: ThemePalette;
   @Input() public disabled: boolean;
@@ -42,11 +49,26 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
   // @Output() cronChange = new EventEmitter();
 
   public activeTab: string;
-  public selectOptions = this.getSelectOptions();
+  public selectOptions: {
+    months: number[];
+    monthWeeks: string[];
+    days: string[];
+    minutes: number[];
+    fullMinutes: number[];
+    seconds: number[];
+    hours: number[];
+    monthDays: number[];
+    monthDaysWithLasts: string[];
+    monthDaysWithOutLasts: string[];
+    hourTypes: string[];
+} | null = null;
   public state: any;
+  public weekStartsOnSunday = getLocaleFirstDayOfWeek(this.localeId) === 0;
+  public weekDays = 'MON-FRI';
 
   private localCron = '0 0 1/1 * *';
   private isDirty: boolean;
+  private onDestroy$ = new Subject();
 
   cronForm: FormControl;
 
@@ -87,7 +109,14 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
     return this.options.cronFlavor === 'quartz' ? '?' : '*';
   }
 
-  constructor(private fb: FormBuilder, @Inject(LOCALE_ID) private localeId: string) {}
+  constructor(
+    private fb: FormBuilder,
+    @Inject(LOCALE_ID) private localeId: string
+  ) {}
+
+  ngOnDestroy() {
+    this.onDestroy$.next();
+  }
 
   /* Update the cron output to that of the selected tab.
    * The cron output value is updated whenever a form is updated. To make it change in response to tab selection, we simply reset
@@ -120,9 +149,12 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  public async ngOnInit() {
+  public ngOnInit() {
+    this.selectOptions = this.getSelectOptions();
     this.state = this.getDefaultState();
-
+    if (this.options.weekDays) {
+      this.weekDays = this.options.weekDays;
+    }
     this.handleModelChange(this.cron);
 
     const [
@@ -139,18 +171,18 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
       seconds: [0],
     });
 
-    this.minutesForm.valueChanges.subscribe((value) =>
-      this.computeMinutesCron(value)
-    );
+    this.minutesForm.valueChanges
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((value) => this.computeMinutesCron(value));
 
     this.hourlyForm = this.fb.group({
       hours: [1],
       minutes: [0],
       seconds: [0],
     });
-    this.hourlyForm.valueChanges.subscribe((value) =>
-      this.computeHourlyCron(value)
-    );
+    this.hourlyForm.valueChanges
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((value) => this.computeHourlyCron(value));
 
     this.dailyForm = this.fb.group({
       subTab: ['everyDays'],
@@ -169,26 +201,26 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
         hourType: [this.getHourType(0)],
       }),
     });
-    this.dailyForm.valueChanges.subscribe((value) =>
-      this.computeDailyCron(value)
-    );
+    this.dailyForm.valueChanges
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((value) => this.computeDailyCron(value));
 
     this.weeklyForm = this.fb.group({
-      MON: [true],
+      MON: [!this.weekStartsOnSunday],
       TUE: [false],
       WED: [false],
       THU: [false],
       FRI: [false],
       SAT: [false],
-      SUN: [false],
+      SUN: [this.weekStartsOnSunday],
       hours: [this.getAmPmHour(defaultHours)],
       minutes: [defaultMinutes],
       seconds: [defaultSeconds],
       hourType: [this.getHourType(defaultHours)],
     });
-    this.weeklyForm.valueChanges.subscribe((next) =>
-      this.computeWeeklyCron(next)
-    );
+    this.weeklyForm.valueChanges
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((next) => this.computeWeeklyCron(next));
 
     this.monthlyForm = this.fb.group({
       subTab: ['specificDay'],
@@ -202,7 +234,7 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
       }),
       specificWeekDay: this.fb.group({
         monthWeek: ['#1'],
-        day: ['MON'],
+        day: [this.weekStartsOnSunday ? 'SUN' : 'MON'],
         months: [1],
         hours: [this.getAmPmHour(defaultHours)],
         minutes: [defaultMinutes],
@@ -210,9 +242,9 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
         hourType: [this.getHourType(defaultHours)],
       }),
     });
-    this.monthlyForm.valueChanges.subscribe((next) =>
-      this.computeMonthlyCron(next)
-    );
+    this.monthlyForm.valueChanges
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((next) => this.computeMonthlyCron(next));
 
     this.yearlyForm = this.fb.group({
       subTab: ['specificMonthDay'],
@@ -226,7 +258,7 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
       }),
       specificMonthWeek: this.fb.group({
         monthWeek: ['#1'],
-        day: ['MON'],
+        day: [this.weekStartsOnSunday ? 'SUN' : 'MON'],
         month: [1],
         hours: [this.getAmPmHour(defaultHours)],
         minutes: [defaultMinutes],
@@ -234,18 +266,18 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
         hourType: [this.getHourType(defaultHours)],
       }),
     });
-    this.yearlyForm.valueChanges.subscribe((next) =>
-      this.computeYearlyCron(next)
-    );
+    this.yearlyForm.valueChanges
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((next) => this.computeYearlyCron(next));
 
     this.advancedForm = this.fb.group({
       expression: [
         this.isCronFlavorQuartz ? '0 15 10 L-2 * ? *' : '15 10 2 * *',
       ],
     });
-    this.advancedForm.controls.expression.valueChanges.subscribe((next) =>
-      this.computeAdvancedExpression(next)
-    );
+    this.advancedForm.controls.expression.valueChanges
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((next) => this.computeAdvancedExpression(next));
   }
 
   private computeMinutesCron(state: any) {
@@ -282,7 +314,7 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
         } ${state.everyWeekDay.minutes} ${this.hourToCron(
           state.everyWeekDay.hours,
           state.everyWeekDay.hourType
-        )} ${this.monthDayDefaultChar} * MON-FRI ${
+        )} ${this.monthDayDefaultChar} * ${this.weekDays} ${
           this.yearDefaultChar
         }`.trim();
         break;
@@ -293,14 +325,14 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
   }
 
   private computeWeeklyCron(state: any) {
-    const days = this.selectOptions.days
+    const daysArr = this.selectOptions.days
       .reduce((acc, day) => (state[day] ? acc.concat([day]) : acc), [])
       .join(',');
     this.cron = `${this.isCronFlavorQuartz ? state.seconds : ''} ${
       state.minutes
     } ${this.hourToCron(state.hours, state.hourType)} ${
       this.monthDayDefaultChar
-    } * ${days} ${this.yearDefaultChar}`.trim();
+    } * ${daysArr} ${this.yearDefaultChar}`.trim();
     this.cronForm.setValue(this.cron);
   }
 
@@ -366,24 +398,24 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
   }
 
   public dayDisplay(day: string): string {
-    return Days[day];
+    return days(day);
   }
 
   public monthWeekDisplay(monthWeekNumber: string): string {
-    return MonthWeeks[monthWeekNumber];
+    return monthWeeks(monthWeekNumber);
   }
 
   public monthDisplay(month: number): string {
-    return Months[month];
+    return months(month);
   }
 
   public monthDayDisplay(month: string): string {
     if (month === 'L') {
-      return 'Last Day';
+      return $localize`Last Day`;
     } else if (month === 'LW') {
-      return 'Last Weekday';
+      return $localize`Last Weekday`;
     } else if (month === '1W') {
-      return 'First Weekday';
+      return $localize`First Weekday`;
     } else {
       return `${month}${this.getOrdinalSuffix(month)}`;
     }
@@ -461,7 +493,9 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
       this.state.daily.everyDays.hourType = this.getHourType(parsedHours);
       this.state.daily.everyDays.minutes = parseInt(minutes, 10);
       this.state.daily.everyDays.seconds = parseInt(seconds, 10);
-    } else if (cron.match(/\d+ \d+ \d+ [\?\*] \* MON-FRI \*/)) {
+    } else if (
+      cron.match(/\d+ \d+ \d+ [\?\*] \* (?:MON-FRI|SUN-THU|SUN-FRI|MON-SAT) \*/)
+    ) {
       this.activeTab = 'daily';
 
       this.state.daily.subTab = 'everyWeekDay';
@@ -627,7 +661,7 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
         },
         specificWeekDay: {
           monthWeek: '#1',
-          day: 'MON',
+          day: this.weekStartsOnSunday ? 'SUN' : 'MON',
           months: 1,
           hours: this.getAmPmHour(defaultHours),
           minutes: defaultMinutes,
@@ -647,7 +681,7 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
         },
         specificMonthWeek: {
           monthWeek: '#1',
-          day: 'MON',
+          day: this.weekStartsOnSunday ? 'SUN' : 'MON',
           month: 1,
           hours: this.getAmPmHour(defaultHours),
           minutes: defaultMinutes,
@@ -664,6 +698,10 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
   }
 
   private getOrdinalSuffix(value: string) {
+    if (!this.options.useOrdinalSuffixes) {
+      return '';
+    }
+
     if (value.length > 1) {
       const secondToLastDigit = value.charAt(value.length - 2);
       if (secondToLastDigit === '1') {
@@ -688,7 +726,9 @@ export class CronGenComponent implements OnInit, ControlValueAccessor {
     return {
       months: this.getRange(1, 12),
       monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
-      days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
+      days: this.weekStartsOnSunday
+        ? ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+        : ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
       minutes: this.getRange(0, 59),
       fullMinutes: this.getRange(0, 59),
       seconds: this.getRange(0, 59),
