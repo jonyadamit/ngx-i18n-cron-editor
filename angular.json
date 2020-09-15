@@ -64,6 +64,7 @@
               "localize": ["he"]
             },
             "docs": {
+              "baseHref": "/ngx-i18n-cron-editor/",
               "outputPath": "docs",
               "localize": ["en","he"]
             }
