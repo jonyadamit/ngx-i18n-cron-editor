@@ -1,7 +1,7 @@
 ngx-i18n-cron-editor
 ===
 
-An Angular 10 component for building cron expressions graphically, with localization capabilities. 
+An Angular 10 component for building cron expressions graphically, with localization capabilities.  
 This is a fork of https://github.com/haavardj/ngx-cron-editor.  
 It is meant to be used in reactive forms and support Angular Material Design styling.
  
@@ -65,6 +65,7 @@ export class MyComponent {
        
        defaultTime: "00:00:00",
        weekDays: 'MON-FRI',
+       useOrdinalSuffixes: true,
        hideMinutesTab: false,
        hideHourlyTab: false,
        hideDailyTab: false,
