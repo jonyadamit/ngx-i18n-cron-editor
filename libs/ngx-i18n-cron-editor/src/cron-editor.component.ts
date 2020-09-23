@@ -150,6 +150,9 @@ export class CronGenComponent
   }
 
   public ngOnInit() {
+    if (this.isCronFlavorQuartz) {
+      this.localCron = '0 0 0 1/1 * *';
+    }
     this.selectOptions = this.getSelectOptions();
     this.state = this.getDefaultState();
     if (this.options.weekDays) {
@@ -163,7 +166,7 @@ export class CronGenComponent
       defaultSeconds,
     ] = this.options.defaultTime.split(':').map(Number);
 
-    this.cronForm = new FormControl('0 0 1/1 * *');
+    this.cronForm = new FormControl(this.isCronFlavorQuartz ? '0 0 0 1/1 * *' : '0 0 1/1 * *');
 
     this.minutesForm = this.fb.group({
       hours: [0],
