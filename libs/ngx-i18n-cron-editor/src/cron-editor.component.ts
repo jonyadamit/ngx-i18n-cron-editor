@@ -49,6 +49,7 @@ export class CronGenComponent
   // @Output() cronChange = new EventEmitter();
 
   public activeTab: string;
+  public tabs = [];
   public selectOptions: {
     months: number[];
     monthWeeks: string[];
@@ -61,15 +62,15 @@ export class CronGenComponent
     monthDaysWithLasts: string[];
     monthDaysWithOutLasts: string[];
     hourTypes: string[];
-} | null = null;
+  } | null = null;
   public state: any;
-  public weekStartsOnSunday = getLocaleFirstDayOfWeek(this.localeId) === 0;
+  public weekStartsOnSunday: boolean;
   public weekDays = 'MON-FRI';
 
   private localCron = '0 0 1/1 * *';
   private isDirty: boolean;
   private onDestroy$ = new Subject();
-
+  private reentryFlag = false;
   cronForm: FormControl;
 
   minutesForm: FormGroup;
@@ -86,6 +87,7 @@ export class CronGenComponent
 
   set cron(value: string) {
     this.localCron = value;
+    this.handleModelChange(value);
     this.onChange(value);
   }
 
@@ -112,7 +114,10 @@ export class CronGenComponent
   constructor(
     private fb: FormBuilder,
     @Inject(LOCALE_ID) private localeId: string
-  ) {}
+  ) {
+    this.weekStartsOnSunday = getLocaleFirstDayOfWeek(this.localeId) === 0;
+    this.selectOptions = this.getSelectOptions();
+  }
 
   ngOnDestroy() {
     this.onDestroy$.next();
@@ -122,26 +127,26 @@ export class CronGenComponent
    * The cron output value is updated whenever a form is updated. To make it change in response to tab selection, we simply reset
    * the value of the form that goes into focus. */
   public onTabFocus(idx: number) {
-    switch (idx) {
-      case 0:
+    switch (this.tabs[idx]) {
+      case 'minutes':
         this.minutesForm.setValue(this.minutesForm.value);
         break;
-      case 1:
+      case 'hourly':
         this.hourlyForm.setValue(this.hourlyForm.value);
         break;
-      case 2:
+      case 'daily':
         this.dailyForm.setValue(this.dailyForm.value);
         break;
-      case 3:
+      case 'weekly':
         this.weeklyForm.setValue(this.weeklyForm.value);
         break;
-      case 4:
+      case 'monthly':
         this.monthlyForm.setValue(this.monthlyForm.value);
         break;
-      case 5:
+      case 'yearly':
         this.yearlyForm.setValue(this.yearlyForm.value);
         break;
-      case 6:
+      case 'advanced':
         this.advancedForm.setValue(this.advancedForm.value);
         break;
       default:
@@ -150,15 +155,34 @@ export class CronGenComponent
   }
 
   public ngOnInit() {
-    if (this.isCronFlavorQuartz) {
+    if (this.isCronFlavorQuartz && this.localCron === '0 0 1/1 * *') {
       this.localCron = '0 0 0 1/1 * *';
     }
-    this.selectOptions = this.getSelectOptions();
     this.state = this.getDefaultState();
     if (this.options.weekDays) {
       this.weekDays = this.options.weekDays;
     }
-    this.handleModelChange(this.cron);
+    if (!this.options.hideMinutesTab) {
+      this.tabs.push('minutes');
+    }
+    if (!this.options.hideHourlyTab) {
+      this.tabs.push('hourly');
+    }
+    if (!this.options.hideDailyTab) {
+      this.tabs.push('daily');
+    }
+    if (!this.options.hideWeeklyTab) {
+      this.tabs.push('weekly');
+    }
+    if (!this.options.hideMonthlyTab) {
+      this.tabs.push('monthly');
+    }
+    if (!this.options.hideYearlyTab) {
+      this.tabs.push('yearly');
+    }
+    if (!this.options.hideAdvancedTab) {
+      this.tabs.push('advanced');
+    }
 
     const [
       defaultHours,
@@ -166,7 +190,9 @@ export class CronGenComponent
       defaultSeconds,
     ] = this.options.defaultTime.split(':').map(Number);
 
-    this.cronForm = new FormControl(this.isCronFlavorQuartz ? '0 0 0 1/1 * *' : '0 0 1/1 * *');
+    this.cronForm = new FormControl(
+      this.isCronFlavorQuartz ? '0 0 0 1/1 * *' : '0 0 1/1 * *'
+    );
 
     this.minutesForm = this.fb.group({
       hours: [0],
@@ -429,7 +455,7 @@ export class CronGenComponent
   }
 
   private getHourType(hour: number) {
-    return this.options.use24HourTime ? undefined : hour >= 12 ? 'PM' : 'AM';
+    return this.options.use24HourTime ? '' : hour >= 12 ? 'PM' : 'AM';
   }
 
   private hourToCron(hour: number, hourType: string) {
@@ -447,6 +473,9 @@ export class CronGenComponent
   }
 
   private handleModelChange(cron: string) {
+    if (this.reentryFlag) {
+      return;
+    }
     if (this.isDirty) {
       this.isDirty = false;
       return;
@@ -465,7 +494,7 @@ export class CronGenComponent
         throw new Error('Invalid cron expression, there must be 5 segments');
       }
     }
-
+    this.reentryFlag = true;
     const origCron: string = cron;
     if (cron.split(' ').length === 5 && this.isCronFlavorStandard) {
       cron = `0 ${cron} *`;
@@ -480,12 +509,14 @@ export class CronGenComponent
 
       this.state.minutes.minutes = parseInt(minutes.substring(2), 10);
       this.state.minutes.seconds = parseInt(seconds, 10);
+      this.minutesForm.patchValue(this.state.minutes);
     } else if (cron.match(/\d+ \d+ 0\/\d+ 1\/1 \* [\?\*] \*/)) {
       this.activeTab = 'hourly';
 
       this.state.hourly.hours = parseInt(hours.substring(2), 10);
       this.state.hourly.minutes = parseInt(minutes, 10);
       this.state.hourly.seconds = parseInt(seconds, 10);
+      this.hourlyForm.patchValue(this.state.hourly);
     } else if (cron.match(/\d+ \d+ \d+ 1\/\d+ \* [\?\*] \*/)) {
       this.activeTab = 'daily';
 
@@ -496,6 +527,7 @@ export class CronGenComponent
       this.state.daily.everyDays.hourType = this.getHourType(parsedHours);
       this.state.daily.everyDays.minutes = parseInt(minutes, 10);
       this.state.daily.everyDays.seconds = parseInt(seconds, 10);
+      this.dailyForm.patchValue(this.state.daily);
     } else if (
       cron.match(/\d+ \d+ \d+ [\?\*] \* (?:MON-FRI|SUN-THU|SUN-FRI|MON-SAT) \*/)
     ) {
@@ -507,6 +539,7 @@ export class CronGenComponent
       this.state.daily.everyWeekDay.hourType = this.getHourType(parsedHours);
       this.state.daily.everyWeekDay.minutes = parseInt(minutes, 10);
       this.state.daily.everyWeekDay.seconds = parseInt(seconds, 10);
+      this.dailyForm.patchValue(this.state.daily);
     } else if (
       cron.match(
         /\d+ \d+ \d+ [\?\*] \* (MON|TUE|WED|THU|FRI|SAT|SUN)(,(MON|TUE|WED|THU|FRI|SAT|SUN))* \*/
@@ -524,6 +557,7 @@ export class CronGenComponent
       this.state.weekly.hourType = this.getHourType(parsedHours);
       this.state.weekly.minutes = parseInt(minutes, 10);
       this.state.weekly.seconds = parseInt(seconds, 10);
+      this.weeklyForm.patchValue(this.state.weekly);
     } else if (cron.match(/\d+ \d+ \d+ (\d+|L|LW|1W) 1\/\d+ [\?\*] \*/)) {
       this.activeTab = 'monthly';
       this.state.monthly.subTab = 'specificDay';
@@ -534,6 +568,7 @@ export class CronGenComponent
       this.state.monthly.specificDay.hourType = this.getHourType(parsedHours);
       this.state.monthly.specificDay.minutes = parseInt(minutes, 10);
       this.state.monthly.specificDay.seconds = parseInt(seconds, 10);
+      this.monthlyForm.patchValue(this.state.monthly);
     } else if (
       cron.match(
         /\d+ \d+ \d+ [\?\*] 1\/\d+ (MON|TUE|WED|THU|FRI|SAT|SUN)((#[1-5])|L) \*/
@@ -556,6 +591,7 @@ export class CronGenComponent
       );
       this.state.monthly.specificWeekDay.minutes = parseInt(minutes, 10);
       this.state.monthly.specificWeekDay.seconds = parseInt(seconds, 10);
+      this.monthlyForm.patchValue(this.state.monthly);
     } else if (cron.match(/\d+ \d+ \d+ (\d+|L|LW|1W) \d+ [\?\*] \*/)) {
       this.activeTab = 'yearly';
       this.state.yearly.subTab = 'specificMonthDay';
@@ -568,6 +604,7 @@ export class CronGenComponent
       );
       this.state.yearly.specificMonthDay.minutes = parseInt(minutes, 10);
       this.state.yearly.specificMonthDay.seconds = parseInt(seconds, 10);
+      this.yearlyForm.patchValue(this.state.yearly);
     } else if (
       cron.match(
         /\d+ \d+ \d+ [\?\*] \d+ (MON|TUE|WED|THU|FRI|SAT|SUN)((#[1-5])|L) \*/
@@ -587,10 +624,13 @@ export class CronGenComponent
       );
       this.state.yearly.specificMonthWeek.minutes = parseInt(minutes, 10);
       this.state.yearly.specificMonthWeek.seconds = parseInt(seconds, 10);
+      this.yearlyForm.patchValue(this.state.yearly);
     } else {
       this.activeTab = 'advanced';
       this.state.advanced.expression = origCron;
+      this.advancedForm.patchValue(this.state.advanced);
     }
+    this.reentryFlag = false;
   }
 
   private cronIsValid(cron: string): boolean {
