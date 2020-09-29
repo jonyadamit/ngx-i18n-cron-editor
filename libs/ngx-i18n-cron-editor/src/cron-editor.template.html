@@ -207,7 +207,7 @@
 
               <ng-container>
                 <mat-form-field>
-                  <mat-label i18n>Month</mat-label>
+                  <mat-label i18n>Months</mat-label>
                   <mat-select
                     class="months-small"
                     formControlName="months"
@@ -217,7 +217,7 @@
                       *ngFor="let month of selectOptions.months"
                       [value]="month"
                     >
-                      {{monthDisplay(month)}}
+                      {{month}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -275,13 +275,13 @@
               <ng-container i18n>of every</ng-container>
 
               <mat-form-field>
-                <mat-label i18n>Month</mat-label>
+                <mat-label i18n>Months</mat-label>
                 <mat-select class="months-small" formControlName="months">
                   <mat-option
                     *ngFor="let month of selectOptions.months"
                     [value]="month"
                   >
-                    {{monthDisplay(month)}}
+                    {{month}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>

@@ -172,6 +172,9 @@
       <trans-unit id="2829964193210082231" datatype="html">
         <source>of every</source>
         <target state="final">of every</target>
+      </trans-unit><trans-unit id="4845030128243887325" datatype="html">
+        <source>Months</source>
+        <target state="final">Months</target>
       </trans-unit>
       <trans-unit id="5403684285319082289" datatype="html">
         <source>Month</source>

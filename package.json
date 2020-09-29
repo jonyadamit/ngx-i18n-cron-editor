@@ -7,7 +7,7 @@
     "Claudiu Constantin",
     "Eduardo Sarmiento"
   ],
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -32,7 +32,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "pack": "ng build --prod & cd dist & npm pack",
-    "extract-i18n": "ng build demo && npx locl extract --s \"dist/apps/demo/*.js\" -f xlf -o apps/demo/src/locale/messages.xlf && ng run demo:xliffmerge",
+    "extract-i18n": "ng build && ng build demo && npx locl extract --s \"dist/apps/demo/*.js\" -f xlf -o apps/demo/src/locale/messages.xlf && ng run demo:xliffmerge",
     "start-he": "ng serve --configuration=he",
     "ghpages": "ng build demo --c production,docs && cpy ghpages/* docs --dot && cpy docs/en/index.html docs/en/404.html && cpy docs/he/index.html docs/he/404.html"
   },

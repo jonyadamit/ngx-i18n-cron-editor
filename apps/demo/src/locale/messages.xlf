@@ -201,9 +201,9 @@
         <source>of every</source>
         <target>of every</target>
       </trans-unit>
-      <trans-unit id="5403684285319082289" datatype="html">
-        <source>Month</source>
-        <target>Month</target>
+      <trans-unit id="4845030128243887325" datatype="html">
+        <source>Months</source>
+        <target>Months</target>
       </trans-unit>
       <trans-unit id="6408263129846813839" datatype="html">
         <source>at time</source>
@@ -224,6 +224,10 @@
       <trans-unit id="5881876145178332550" datatype="html">
         <source>of</source>
         <target>of</target>
+      </trans-unit>
+      <trans-unit id="5403684285319082289" datatype="html">
+        <source>Month</source>
+        <target>Month</target>
       </trans-unit>
       <trans-unit id="6201638315245239510" datatype="html">
         <source>Advanced</source>
