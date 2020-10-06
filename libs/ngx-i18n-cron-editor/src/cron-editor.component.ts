@@ -310,8 +310,16 @@ export class CronGenComponent
   }
 
   private computeMinutesCron(state: any) {
-    this.cron = `${this.isCronFlavorQuartz ? state.seconds : ''} 0/${
-      state.minutes
+    this.cron = `${
+      this.isCronFlavorQuartz
+        ? state.minutes === 0
+          ? '*/' + state.seconds
+          : state.seconds
+        : ''
+    } ${
+      this.isCronFlavorQuartz && state.minutes === 0
+        ? '*'
+        : '0/' + state.minutes
     } * 1/1 * ${this.weekDayDefaultChar} ${this.yearDefaultChar}`.trim();
     this.cronForm.setValue(this.cron);
   }
@@ -509,6 +517,14 @@ export class CronGenComponent
 
       this.state.minutes.minutes = parseInt(minutes.substring(2), 10);
       this.state.minutes.seconds = parseInt(seconds, 10);
+      this.minutesForm.patchValue(this.state.minutes);
+    } else if (
+      this.isCronFlavorQuartz &&
+      cron.match(/\*\/\d+ \* \* 1\/1 \* [\?\*] \*/)
+    ) {
+      this.activeTab = 'minutes';
+      this.state.minutes.minutes = 0;
+      this.state.minutes.seconds = parseInt(seconds.substring(2), 10);
       this.minutesForm.patchValue(this.state.minutes);
     } else if (cron.match(/\d+ \d+ 0\/\d+ 1\/1 \* [\?\*] \*/)) {
       this.activeTab = 'hourly';
